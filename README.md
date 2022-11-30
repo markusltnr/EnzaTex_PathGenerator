@@ -45,3 +45,9 @@ It will take [background/2000.bmp](https://github.com/markusltnr/EnzaTex_PathGen
 
 ## Camera Calibration
 A Camera calibration file is needed to run the scripts. If you want to create a new one, use the [camera_calibration.py](https://github.com/markusltnr/EnzaTex_PathGenerator/blob/main/camera_calibration.py#L26) file. This file takes images of the checkerboard ```EnzaTex/111*.bmp``` as specified in Line 26 and creates the camera calibration from them. The points of the inner checkerboard edges need to be provided in the [1111_checkboard_points.csv](https://github.com/markusltnr/EnzaTex_PathGenerator/blob/main/1111_checkboard_points.csv) file. The points are ordered from top left to bottom right like in this picture: [OpenCV Checkerboard](https://docs.opencv.org/3.4/fileListImage.jpg)
+
+## GUI
+![](Screenshot.png)
+
+## Contact
+Markus Leitner - leitnermrks@gmail.com
