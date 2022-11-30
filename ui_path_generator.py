@@ -4,8 +4,8 @@ import cv2
 import PySimpleGUI as sg
 import numpy as np
 from path_generator import path_generation
-from camera import Camera
-# from dummy_camera import Camera
+# from camera import Camera
+from dummy_camera import Camera
 import time
 from datetime import datetime
 import csv
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     cam = Camera()
 
     img = np.zeros((w, h, 3))
-    bg_img = np.zeros((w, h, 3))
+    img_bg = np.zeros((w, h, 3))
     a_id = update_image(img, w_gui_img, h_gui_img)
     bg_flag, textile_flag = False, False
     now = datetime.now().strftime("%Y-%m-%d_%H-%M")
@@ -90,6 +90,8 @@ if __name__ == "__main__":
                 window["-TEXTILE-"].update(disabled=False)
                 window["-BACKGROUND-"].update(disabled=False)
                 window["-SAMPLE TEXT-"].update("SAMPLE: {}".format(sample))
+                if img_bg.sum()>0:
+                    window["-SHOW BACKGROUND-"].update(disabled=False)
 
         if event == "-BACKGROUND-":
             img_bg = cam.capture()
@@ -128,9 +130,8 @@ if __name__ == "__main__":
             window["-SAMPLE TEXT-"].update("SAMPLE: ")
             window["-SAMPLE-"].update("")
             sample = ""
-            textile_flag, bg_flag = False, False
+            textile_flag = False
             img = np.zeros((w, h, 3))
-            bg_img = np.zeros((w, h, 3))
             graph_elem.delete_figure(a_id)
             make_measurement(world_coords)
         if event == "-DRAW GRID-":
