@@ -162,7 +162,6 @@ if __name__ == "__main__":
     # load background and object image
     img_bg = cv2.imread("background/2000.bmp")
     img_obj = cv2.imread("textiles/2001.bmp")
-    print(img_obj.shape, img_bg.shape)
     # path generation
     img, coords = path_generation(
         camera_dict, img_obj, img_bg, bg_thresh=50, spacing=10, dilation=10)
