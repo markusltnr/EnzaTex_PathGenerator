@@ -124,11 +124,9 @@ if __name__ == "__main__":
             window["-DRAW GRID-"].update(disabled=True)
             window["-BACKGROUND-"].update(disabled=True)
             window["-SHOW TEXTILE-"].update(disabled=True)
-            #window["-SHOW BACKGROUND-"].update(disabled=True)
             window["-SAMPLE TEXT-"].update("SAMPLE: ")
             window["-SAMPLE-"].update("")
             sample = ""
-            #textile_flag, bg_flag = False, False
             textile_flag = False
             img = np.zeros((w, h, 3))
             bg_img = np.zeros((w, h, 3))
