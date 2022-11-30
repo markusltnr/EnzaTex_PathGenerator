@@ -23,7 +23,7 @@ if __name__ == '__main__':
     # Arrays to store object points and image points from all the images.
     objpoints = []  # 3d point in real world space
     imgpoints = []  # 2d points in image plane.
-    images = glob.glob('../../EnzaTex/111*.bmp')
+    images = glob.glob('EnzaTex/111*.bmp')
     images = sorted(images)
     for fname in images:
         img = cv.imread(fname)

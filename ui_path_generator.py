@@ -4,8 +4,8 @@ import cv2
 import PySimpleGUI as sg
 import numpy as np
 from path_generator import path_generation
-# from camera import Camera
-from dummy_camera import Camera
+from camera import Camera
+# from dummy_camera import Camera
 import time
 from datetime import datetime
 import csv
@@ -26,7 +26,7 @@ def update_image(frame, w_gui_img, h_gui_img):
 
 if __name__ == "__main__":
     w, h = 2448, 2048 # size of the input image
-    w_gui, h_gui = 900, 900 # size of the GUI window
+    w_gui, h_gui = 700, 900 # size of the GUI window
     w_gui_img, h_gui_img = 612, 512 # size of the image in GUI window
 
     os.makedirs("background", exist_ok=True)
@@ -50,10 +50,10 @@ if __name__ == "__main__":
                [sg.Button("CAPTURE TEXTILE", size=(26, 1), key="-TEXTILE-", disabled=True),
                 sg.Button("SHOW TEXTILE IMG", size=(26, 1), key="-SHOW TEXTILE-", disabled=True)],
                [sg.Text("Spacing:\t", font=("Arial", 13)),
-                sg.Slider((1, 255), 25, 1, font=("Arial", 12), orientation="h",
+                sg.Slider((1, 255), 10, 1, font=("Arial", 12), orientation="h",
                    size=(40, 15), key="-SPACING-")],
                [sg.Text("Dilation:\t", font=("Arial", 13)),
-                sg.Slider((1, 255), 25, 1, font=("Arial", 12), orientation="h",
+                sg.Slider((1, 255), 1, 1, font=("Arial", 12), orientation="h",
                    size=(40, 15), key="-DILATION-")],
                [sg.Text("Thresh:\t", font=("Arial", 13)),
                 sg.Slider((1, 255), 50, 1, font=("Arial", 12), orientation="h",
