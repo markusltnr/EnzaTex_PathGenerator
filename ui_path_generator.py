@@ -41,12 +41,12 @@ if __name__ == "__main__":
 
     column = [[sg.Graph((w_gui_img, h_gui_img), (0, h_gui_img), (w_gui_img, 0), 
                         key="-GRAPH-", enable_events=True, drag_submits=True)]]
-    column2 = [[sg.Text("SAMPLE: ", font=("Arial", 16, "bold"), key="-SAMPLE TEXT-")],
+    column2 = [[sg.Button("CAPTURE BACKGROUND", size=(26, 1), key="-BACKGROUND-", disabled=False),
+                sg.Button("SHOW BACKGROUND IMG", size=(26, 1), key="-SHOW BACKGROUND-", disabled=True)],
+               [sg.Text("SAMPLE: ", font=("Arial", 16, "bold"), key="-SAMPLE TEXT-")],
                [sg.Text("Enter Sample Name: ", font=("Arial", 13)), 
                 sg.InputText(size=(30,1),key="-SAMPLE-"),
                sg.Button("SUBMIT", size=(15, 1), key="-SAMPLE KEY-", bind_return_key=True)],
-               [sg.Button("CAPTURE BACKGROUND", size=(26, 1), key="-BACKGROUND-", disabled=True),
-                sg.Button("SHOW BACKGROUND IMG", size=(26, 1), key="-SHOW BACKGROUND-", disabled=True)],
                [sg.Button("CAPTURE TEXTILE", size=(26, 1), key="-TEXTILE-", disabled=True),
                 sg.Button("SHOW TEXTILE IMG", size=(26, 1), key="-SHOW TEXTILE-", disabled=True)],
                [sg.Text("Spacing:\t", font=("Arial", 13)),
@@ -126,7 +126,6 @@ if __name__ == "__main__":
             window["-DRAW GRID-"].update(disabled=True)
             window["-BACKGROUND-"].update(disabled=True)
             window["-SHOW TEXTILE-"].update(disabled=True)
-            window["-SHOW BACKGROUND-"].update(disabled=True)
             window["-SAMPLE TEXT-"].update("SAMPLE: ")
             window["-SAMPLE-"].update("")
             sample = ""
