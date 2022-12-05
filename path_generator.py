@@ -124,7 +124,10 @@ def pixel2world(points, camera_dict, undistort=True):
         ((point_new), np.ones(
             (point_new.shape[0], 1))), axis=1)[
         :, :, np.newaxis]
+    
     world_coord = np.matmul(inv_tf, im_coord).squeeze()
+    if world_coord.shape == (3,):
+        world_coord = world_coord.reshape((1,3))
     world_coord = (world_coord / world_coord[:, 2, None])
     return world_coord[:, :2]
 

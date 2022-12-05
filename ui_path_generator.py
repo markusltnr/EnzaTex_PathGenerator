@@ -3,9 +3,9 @@ import os
 import cv2
 import PySimpleGUI as sg
 import numpy as np
-from path_generator import path_generation
-from camera import Camera
-# from dummy_camera import Camera
+from path_generator import path_generation, pixel2world
+# from camera import Camera
+from dummy_camera import Camera
 import time
 from datetime import datetime
 import csv
@@ -59,7 +59,10 @@ if __name__ == "__main__":
                 sg.Slider((1, 255), 50, 1, font=("Arial", 12), orientation="h",
                    size=(40, 15), key="-BG THRESH-")],
                [sg.Button("DRAW PATH", size=(26, 1), key="-DRAW GRID-", disabled=True),
-               sg.Button("START MEASUREMENT", size=(26, 1), key="-NEXT-", disabled=True)]]
+               sg.Button("START MEASUREMENT", size=(26, 1), key="-NEXT-", disabled=True)],
+               [sg.Text("Coordinates: ", font=("Arial", 13)), 
+                sg.InputText(size=(15,1),key="-X-"), sg.InputText(size=(15,1),key="-Y-")],
+               [sg.Button("SEND COORDINATE", size=(26, 1), key="-SEND COORD-", disabled=False)]]
     layout = [[sg.Column(column2)],
               [sg.Column(column, size=(w_gui, h_gui), scrollable=True, key="-COLUMN-")]]
 
@@ -78,12 +81,22 @@ if __name__ == "__main__":
     csvfile = open(os.path.join("log", "log_"+now+".csv"),"w", newline="")
     log = csv.writer(csvfile, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL)
     log.writerow(["Sample Name", "Timestamp", "Spacing", "Dilation", "Background Threshold"])
+    
+    mtx = np.asarray(camera_dict["camera_matrix"])
+    dist = np.asarray(camera_dict["dist_coeff"])
+    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
+
+    
     while True:
         event, values = window.read(timeout=0)
         if event in ("Exit", None):
             window.close()
             break
-
+        
+        if event == "-SEND COORD-":
+            coord = np.asarray([values["-X-"], values["-Y-"]]).reshape((1,2))
+            coord = pixel2world(coord, camera_dict)
+        
         if event == "-SAMPLE KEY-":
             if values["-SAMPLE-"] != "":
                 sample = values["-SAMPLE-"]
@@ -134,6 +147,7 @@ if __name__ == "__main__":
             img = np.zeros((w, h, 3))
             graph_elem.delete_figure(a_id)
             make_measurement(world_coords)
+            
         if event == "-DRAW GRID-":
             try:
                 vis_img, world_coords = path_generation(
@@ -149,6 +163,10 @@ if __name__ == "__main__":
             cv2.imwrite(os.path.join("background", sample + ".png"), img_bg)
             cv2.imwrite(os.path.join("textiles", sample + ".png"), img)
             np.savetxt(coord_filename, world_coords, fmt="%10.5f")
+            dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
+            cv2.imwrite(os.path.join("textiles", sample + "_undist.png"), dst)
+            print(world_coords.shape)
+
     csvfile.close()  
     cam.destroy()
     window.close()
