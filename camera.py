@@ -18,19 +18,21 @@ class Camera:
         self._harvester.add_file(CTI)
         self._harvester.update()
         self._acquirer = self._harvester.create()
+        self._acquirer.num_buffers = 3
         params = self._acquirer.remote_device.node_map
-        params.ExposureTime.value = EXPOSURE_TIME
-        params.Gain.value = GAIN
+        #params.ExposureTime.value = EXPOSURE_TIME
+        #params.Gain.value = GAIN
         self._acquirer.start()
         
     def capture(self):
         '''retrieve next camera frame from the queue
         returns a HxWx3 numpy array (BGR image)
         '''
-        with self._acquirer.fetch() as buffer:
-            component = buffer.payload.components[0]
-            raw = component.data.reshape(component.height,component.width)
-            bgr = cv2.cvtColor(raw, cv2.COLOR_BayerRGGB2BGR)
+        for i in range(3):
+            with self._acquirer.fetch() as buffer:
+                component = buffer.payload.components[0]
+                raw = component.data.reshape(component.height,component.width)
+                bgr = cv2.cvtColor(raw, cv2.COLOR_BayerRGGB2BGR)
         return bgr
     
     def destroy(self):

@@ -4,8 +4,8 @@ import cv2
 import PySimpleGUI as sg
 import numpy as np
 from path_generator import path_generation
-# from camera import Camera
-from dummy_camera import Camera
+from camera import Camera
+# from dummy_camera import Camera
 import time
 from datetime import datetime
 import csv

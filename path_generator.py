@@ -81,7 +81,7 @@ def path_generation(camera_dict, img_obj, img_bg,
                  coordinates_sorted[i + 1],
                  (255, 255, 255), 8)
 
-    world_coords = pixel2world(np.asarray(coordinates), camera_dict)
+    world_coords = pixel2world(np.asarray(coordinates_sorted), camera_dict)
     contour_points = cv2.cvtColor(contour_points, cv2.COLOR_GRAY2RGB)
     path_img = cv2.addWeighted(img, 0.7, contour_points, 0.3, 0)
 
