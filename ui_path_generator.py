@@ -165,7 +165,6 @@ if __name__ == "__main__":
             np.savetxt(coord_filename, world_coords, fmt="%10.5f")
             dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
             cv2.imwrite(os.path.join("textiles", sample + "_undist.png"), dst)
-            print(world_coords.shape)
 
     csvfile.close()  
     cam.destroy()
