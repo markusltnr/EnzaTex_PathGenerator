@@ -31,7 +31,7 @@ def path_generation(camera_dict, img_obj, img_bg,
     b = (corners_mm[2, 0] - corners_mm[3, 0]) / w
     c = (corners_mm[2, 1] - corners_mm[0, 1]) / h
     d = (corners_mm[3, 1] - corners_mm[1, 1]) / h
-    pixmm = np.mean([a, b, c, d])
+    pixmm = abs(np.mean([a, b, c, d]))
 
     _, thresh = cv2.threshold(img_mask, 127, 255, cv2.THRESH_BINARY)
 
@@ -84,8 +84,7 @@ def path_generation(camera_dict, img_obj, img_bg,
     world_coords = pixel2world(np.asarray(coordinates_sorted), camera_dict)
     contour_points = cv2.cvtColor(contour_points, cv2.COLOR_GRAY2RGB)
     path_img = cv2.addWeighted(img, 0.7, contour_points, 0.3, 0)
-
-    return path_img, world_coords
+    return path_img, world_coords, img_mask
 
 
 def pixel2world(points, camera_dict, undistort=True):
@@ -124,7 +123,6 @@ def pixel2world(points, camera_dict, undistort=True):
         ((point_new), np.ones(
             (point_new.shape[0], 1))), axis=1)[
         :, :, np.newaxis]
-    
     world_coord = np.matmul(inv_tf, im_coord).squeeze()
     if world_coord.shape == (3,):
         world_coord = world_coord.reshape((1,3))
@@ -158,6 +156,15 @@ def segment_mask_bg(img_background, img_object, bg_thresh):
 
 if __name__ == "__main__":
     import yaml
+    
+    import os
+    w_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(w_path)
+    os.makedirs("background", exist_ok=True)
+    os.makedirs("textiles", exist_ok=True)
+    os.makedirs("coordinates", exist_ok=True)
+    os.makedirs("log", exist_ok=True)
+
 
     # load calibration matrix
     with open("calibration_matrix.yaml", "r") as f:

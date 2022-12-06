@@ -15,7 +15,7 @@ if __name__ == '__main__':
     # the image, second point right neighbor in top row, last point bottom
     # right
     objp = []
-    with open('checkerboard_points.csv', newline='') as csvfile:
+    with open('1111_checkboard_points.csv', newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=',')
         for row in spamreader:
             objp.append([float(row[0]), float(row[1]), float(row[2])])

@@ -20,6 +20,7 @@ class Camera:
         self._acquirer = self._harvester.create()
         self._acquirer.num_buffers = 3
         params = self._acquirer.remote_device.node_map
+        
         #params.ExposureTime.value = EXPOSURE_TIME
         #params.Gain.value = GAIN
         self._acquirer.start()
@@ -28,7 +29,7 @@ class Camera:
         '''retrieve next camera frame from the queue
         returns a HxWx3 numpy array (BGR image)
         '''
-        for i in range(3):
+        for i in range(4):
             with self._acquirer.fetch() as buffer:
                 component = buffer.payload.components[0]
                 raw = component.data.reshape(component.height,component.width)
