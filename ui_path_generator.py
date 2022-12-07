@@ -129,6 +129,23 @@ if __name__ == "__main__":
         if event == "-SAMPLE KEY-":
             if values["-SAMPLE-"] != "":
                 sample = values["-SAMPLE-"]
+                if os.path.exists(os.path.join("textiles", sample + ".png")):
+                    popup_button = sg.popup_yes_no('Warning, sample {} already exists!\nDo you want to overwrite it?'.format(sample), title="File Warning", background_color="Red")
+                    if popup_button == "No":
+                        sample = ""
+                        window["-NEXT-"].update(disabled=True)
+                        window["-TEXTILE-"].update(disabled=True)
+                        window["-DRAW GRID-"].update(disabled=True)
+                        window["-BACKGROUND-"].update(disabled=True)
+                        window["-SHOW TEXTILE-"].update(disabled=True)
+                        window["-SHOW BACKGROUND-"].update(disabled=True)
+                        window["-SAMPLE TEXT-"].update("SAMPLE: ")
+                        window["-SAMPLE-"].update("")
+                        window["-SHOW MASK-"].update(disabled=True)
+                        textile_flag = False
+                        img = np.zeros((w, h, 3))
+                        graph_elem.delete_figure(a_id)
+                        continue
                 window["-TEXTILE-"].update(disabled=False)
                 window["-BACKGROUND-"].update(disabled=False)
                 window["-SAMPLE TEXT-"].update("SAMPLE: {}".format(sample))
